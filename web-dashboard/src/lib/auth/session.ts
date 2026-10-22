@@ -33,8 +33,13 @@ export function canManageDevices(role: MemberRole): boolean {
  * to a local demo session when running in local development/testing.
  */
 export async function getCurrentSession(): Promise<AuthenticatedContext | null> {
-  const cookieStore = await cookies();
-  const demoRoleCookie = cookieStore.get(DEMO_ROLE_COOKIE)?.value;
+  let demoRoleCookie: string | undefined;
+  try {
+    const cookieStore = await cookies();
+    demoRoleCookie = cookieStore.get(DEMO_ROLE_COOKIE)?.value;
+  } catch {
+    demoRoleCookie = undefined;
+  }
 
   const isSupabaseConfigured =
     Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
