@@ -32,19 +32,16 @@ export function DashboardNav({
       href: "/live",
       label: "Caja en Vivo",
       icon: Radio,
-      roles: ["OWNER", "CASHIER"] as MemberRole[],
     },
     {
       href: "/history",
-      label: "Historial y Cuadre",
+      label: "Cuadre e Historial",
       icon: History,
-      roles: ["OWNER", "CASHIER"] as MemberRole[],
     },
     {
       href: "/devices",
       label: "Teléfonos",
       icon: Smartphone,
-      roles: ["OWNER", "CASHIER"] as MemberRole[],
     },
   ];
 
@@ -55,29 +52,25 @@ export function DashboardNav({
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-30 bg-[var(--bg-canvas)]/90 shadow-[0_1px_0_0_rgba(255,255,255,0.065)] backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
         <div className="flex items-center gap-6">
           <Link href="/live" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30">
-              <ShieldCheck className="h-5 w-5" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.06] text-emerald-400 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
+              <ShieldCheck className="h-4 w-4" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-base font-bold tracking-tight text-white">
-                  PagoPulse
-                </span>
-                <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] font-medium text-slate-300">
-                  {organizationName}
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400">
-                Verificador antifraude Yape / Plin
-              </p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-sm font-bold tracking-tight text-white">
+                PagoPulse
+              </span>
+              <span className="text-xs text-[var(--text-tertiary)]">/</span>
+              <span className="text-xs font-medium text-[var(--text-secondary)]">
+                {organizationName}
+              </span>
             </div>
           </Link>
 
-          <nav className="flex items-center gap-1">
+          <nav className="flex items-center gap-1 rounded-lg bg-white/[0.03] p-1 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive =
@@ -86,13 +79,17 @@ export function DashboardNav({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${
+                  className={`btn-tactile flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium ${
                     isActive
-                      ? "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30"
-                      : "text-slate-400 hover:bg-slate-900 hover:text-slate-200"
+                      ? "bg-white/[0.1] text-white shadow-[0_1px_2px_rgba(0,0,0,0.4)]"
+                      : "text-[var(--text-secondary)] hover:text-white"
                   }`}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon
+                    className={`h-3.5 w-3.5 ${
+                      isActive ? "text-emerald-400" : "opacity-70"
+                    }`}
+                  />
                   <span>{item.label}</span>
                 </Link>
               );
@@ -100,32 +97,30 @@ export function DashboardNav({
           </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             type="button"
             onClick={handleSwitchRole}
             title="Haz clic para alternar entre vista de Dueño y Cajero"
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ring-1 transition ${
-              role === "OWNER"
-                ? "bg-purple-500/15 text-purple-300 ring-purple-500/30 hover:bg-purple-500/25"
-                : "bg-sky-500/15 text-sky-300 ring-sky-500/30 hover:bg-sky-500/25"
-            }`}
+            className="btn-tactile inline-flex items-center gap-1.5 rounded-lg bg-white/[0.04] px-2.5 py-1.5 text-xs font-medium text-zinc-200 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] hover:bg-white/[0.08]"
           >
             {role === "OWNER" ? (
-              <Crown className="h-3.5 w-3.5" />
+              <Crown className="h-3.5 w-3.5 text-amber-300" />
             ) : (
-              <UserCheck className="h-3.5 w-3.5" />
+              <UserCheck className="h-3.5 w-3.5 text-sky-300" />
             )}
             <span>{role === "OWNER" ? "Rol: Dueño" : "Rol: Cajero"}</span>
-            <span className="text-slate-400">({fullName})</span>
+            <span className="hidden text-[var(--text-tertiary)] sm:inline">
+              · {fullName}
+            </span>
           </button>
 
           <Link
             href="/login"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900 px-2.5 py-1.5 text-xs text-slate-400 transition hover:border-slate-700 hover:text-white"
+            className="btn-tactile inline-flex items-center gap-1.5 rounded-lg bg-white/[0.03] px-2.5 py-1.5 text-xs text-[var(--text-secondary)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)] hover:text-white"
           >
             <LogOut className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Cambiar cuenta</span>
+            <span className="hidden sm:inline">Cuenta</span>
           </Link>
         </div>
       </div>

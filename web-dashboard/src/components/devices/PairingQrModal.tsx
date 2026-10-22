@@ -39,26 +39,28 @@ export function PairingQrModal({ device, onClose }: PairingQrModalProps) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
     >
-      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl">
+      <div className="animate-modal-enter surface-card w-full max-w-md rounded-2xl p-6">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/15 text-purple-400 ring-1 ring-purple-500/30">
-              <QrCode className="h-5 w-5" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/[0.06] text-emerald-400">
+              <QrCode className="h-4 w-4" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white">
+              <h2 className="text-base font-bold tracking-tight text-white">
                 Vincular Agente Android (QR)
               </h2>
-              <p className="text-xs text-slate-400">{device.device_name}</p>
+              <p className="text-xs text-[var(--text-secondary)]">
+                {device.device_name}
+              </p>
             </div>
           </div>
 
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-800 hover:text-white"
+            className="btn-tactile rounded-lg p-1.5 text-[var(--text-secondary)] hover:bg-white/[0.06] hover:text-white"
           >
             <X className="h-4 w-4" />
           </button>
@@ -67,24 +69,23 @@ export function PairingQrModal({ device, onClose }: PairingQrModalProps) {
         <div className="mt-5 flex flex-col items-center rounded-2xl bg-white p-5">
           <QRCodeSVG
             value={qrPayload}
-            size={210}
+            size={208}
             level="M"
             includeMargin={false}
           />
-          <span className="mt-2 font-mono text-[11px] text-slate-600">
+          <span className="font-mono-tabular mt-2.5 text-[11px] text-zinc-600">
             ID: {device.id}
           </span>
         </div>
 
-        <div className="mt-4 space-y-2 rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-3 text-xs text-slate-300">
+        <div className="surface-inset mt-4 space-y-1.5 rounded-xl p-3.5 text-xs">
           <div className="flex items-center gap-1.5 font-semibold text-emerald-400">
-            <ShieldCheck className="h-4 w-4" />
+            <ShieldCheck className="h-3.5 w-3.5" />
             <span>Emparejamiento Zero-Trust con HMAC-SHA256</span>
           </div>
-          <p className="text-[11px] text-slate-400">
-            Abre la app Android <strong>PagoPulse Agent</strong> en el teléfono
-            del dueño y escanea este código QR. La clave secreta se guardará en{" "}
-            <code>EncryptedSharedPreferences</code>.
+          <p className="text-[11px] leading-relaxed text-[var(--text-secondary)]">
+            Abre la app Android <strong className="text-white">PagoPulse Agent</strong>{" "}
+            en el celular donde recibes Yape y Plin y escanea este código QR.
           </p>
         </div>
 
@@ -92,7 +93,7 @@ export function PairingQrModal({ device, onClose }: PairingQrModalProps) {
           <button
             type="button"
             onClick={handleCopyPayload}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2 text-xs font-medium text-slate-300 transition hover:border-slate-600 hover:text-white"
+            className="btn-tactile inline-flex items-center gap-1.5 rounded-lg bg-white/[0.05] px-3.5 py-2 text-xs font-medium text-zinc-200 hover:bg-white/[0.09]"
           >
             {copied ? (
               <>
@@ -102,7 +103,7 @@ export function PairingQrModal({ device, onClose }: PairingQrModalProps) {
             ) : (
               <>
                 <Copy className="h-3.5 w-3.5" />
-                <span>Copiar JSON de emparejamiento</span>
+                <span>Copiar JSON</span>
               </>
             )}
           </button>
@@ -110,7 +111,7 @@ export function PairingQrModal({ device, onClose }: PairingQrModalProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-slate-950 transition hover:bg-emerald-400"
+            className="btn-tactile rounded-lg bg-emerald-400 px-4 py-2 text-xs font-bold text-zinc-950 hover:bg-emerald-300"
           >
             Listo
           </button>

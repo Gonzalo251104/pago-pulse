@@ -31,20 +31,20 @@ export function TtsAnnouncerToggle({
             playPaymentChime();
           }
         }}
-        className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold ring-1 transition ${
+        className={`btn-tactile inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold ${
           enabled
-            ? "bg-emerald-500/15 text-emerald-300 ring-emerald-500/40 hover:bg-emerald-500/25"
-            : "bg-slate-900 text-slate-400 ring-slate-800 hover:text-slate-200"
+            ? "bg-emerald-400/15 text-emerald-300 shadow-[inset_0_0_0_1px_rgba(52,211,153,0.35)] hover:bg-emerald-400/20"
+            : "bg-white/[0.04] text-[var(--text-secondary)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] hover:text-white"
         }`}
       >
         {enabled ? (
           <>
-            <Volume2 className="h-4 w-4 text-emerald-400" />
+            <Volume2 className="h-3.5 w-3.5 text-emerald-400" />
             <span>Altavoz TTS: Activo</span>
           </>
         ) : (
           <>
-            <VolumeX className="h-4 w-4 text-slate-500" />
+            <VolumeX className="h-3.5 w-3.5 text-zinc-500" />
             <span>Altavoz TTS: Silenciado</span>
           </>
         )}
@@ -54,9 +54,9 @@ export function TtsAnnouncerToggle({
         type="button"
         onClick={handleTestVoice}
         title="Reproducir anuncio de prueba en español"
-        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/90 px-3 py-2 text-xs font-medium text-slate-300 transition hover:border-slate-700 hover:text-white"
+        className="btn-tactile inline-flex items-center gap-1.5 rounded-lg bg-white/[0.04] px-2.5 py-1.5 text-xs font-medium text-zinc-300 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] hover:bg-white/[0.08] hover:text-white"
       >
-        <Play className="h-3.5 w-3.5 text-emerald-400" />
+        <Play className="h-3 w-3 text-emerald-400" />
         <span>Probar voz</span>
       </button>
     </div>

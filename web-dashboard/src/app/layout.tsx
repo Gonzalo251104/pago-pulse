@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
+const jakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "PagoPulse — Verificación de Yape y Plin en Tiempo Real",
+  title: "PagoPulse — Terminal de Verificación Yape y Plin",
   description:
-    "Sistema de verificación de pagos móviles en tiempo real y cuadre de caja para comercios en Perú.",
+    "Terminal en tiempo real de verificación de pagos móviles y cuadre de caja para comercios en Perú.",
 };
 
 export default function RootLayout({
@@ -13,8 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className="min-h-screen bg-slate-950 text-slate-50 antialiased">
+    <html
+      lang="es"
+      className={`${jakartaSans.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="min-h-screen selection:bg-emerald-500/25 selection:text-emerald-200">
         {children}
       </body>
     </html>
