@@ -1,0 +1,50 @@
+name: Android Agent CI & APK Release
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - "v*"
+    paths:
+      - "android-agent/**"
+      - ".github/workflows/android-release.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "android-agent/**"
+      - ".github/workflows/android-release.yml"
+  workflow_dispatch:
+
+jobs:
+  build-and-test-android:
+    name: JVM Unit Tests & APK Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android-agent
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run NotificationParser & CryptoUtils JVM Unit Tests
+        run: gradle testDebugUnitTest
+
+      - name: Assemble Debug APK Artifact
+        run: gradle assembleDebug
+
+      - name: Upload PagoPulse Agent APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: pagopulse-agent-debug-apk
+          path: android-agent/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
