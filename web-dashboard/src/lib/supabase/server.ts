@@ -1,5 +1,16 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { createLocalSupabaseFallbackClient } from "@/lib/supabase/local-store";
+
+export function isLiveSupabaseConfigured(): boolean {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return Boolean(
+    supabaseUrl &&
+      serviceRoleKey &&
+      serviceRoleKey !== "your-supabase-service-role-key"
+  );
+}
 
 export async function createSupabaseServerClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -41,10 +52,14 @@ export function createSupabaseServiceClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables."
-    );
+  if (
+    !supabaseUrl ||
+    !serviceRoleKey ||
+    serviceRoleKey === "your-supabase-service-role-key"
+  ) {
+    return createLocalSupabaseFallbackClient() as unknown as ReturnType<
+      typeof createServerClient
+    >;
   }
 
   return createServerClient(supabaseUrl, serviceRoleKey, {
